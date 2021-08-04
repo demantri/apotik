@@ -61,52 +61,22 @@
                         </tr>
 					</thead>
 					<tbody>
-					<?php 
-					$stok_akhir = 0;
-					$subtotal = 0;
-					foreach ($list as $key => $value) { ?>
-						<?php 
-						$stok_akhir = $value->jenis != "Penjualan" ? $stok_akhir += $value->jumlah : $stok_akhir -= $value->jumlah;
-						$subtotal = $value->jenis != "Penjualan" ? $subtotal += $value->subtotal : $subtotal -= $value->subtotal;
-						$harga = $value->jenis != "Penjualan" ? $harga = $value->harga_jual : $harga = $value->harga_jual; 
-						?>
-						<tr>
-							<td><?= $value->created_at?></td>
-							<td><?= $value->jenis?></td>
-							<?php if ($value->jenis == "Pembelian") { ?>
-								<td><?= $value->jumlah?></td>
-								<td><?= $value->harga_jual?></td>
-								<td>Rp. <?= number_format($value->subtotal)?></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td><?= $stok_akhir?></td>
-								<td><?= $harga?></td>
-								<td>Rp. <?= number_format($subtotal)?></td>
-							<?php } else if ($value->jenis == "Penjualan") { ?>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td><?= $value->jumlah?></td>
-								<td><?= $value->harga_jual?></td>
-								<td>Rp. <?= number_format($value->subtotal)?></td>
-								<td><?= $stok_akhir?></td>
-								<td><?= $harga?></td>
-								<td>Rp. <?= number_format($subtotal)?></td>
-							<?php } else { ?>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td><?= $value->jumlah?></td>
-								<td><?= $value->harga_jual?></td>
-								<td>Rp. <?= number_format($value->subtotal)?></td>
-							<?php } ?>
-							<!-- <td><?= $stok_akhir?></td> -->
-						</tr>
-					<?php } ?>
+						<?php foreach ($list as $key => $value) { ?>
+							<?php $ket = substr($value->no_trans, 0, 3) == 'PNJ' ? 'Penjualan' : 'Pembelian' ?>
+							<tr>
+								<td><?= $value->tgl_trans?></td>
+								<td><?= $ket?></td>
+								<td><?= $value->unit1?></td>
+								<td><?= $value->harga1?></td>
+								<td><?= $value->total1?></td>
+								<td><?= $value->unit2?></td>
+								<td><?= $value->harga2?></td>
+								<td><?= $value->total2?></td>
+								<td><?= $value->unit3?></td>
+								<td class="text-right"><?= $value->harga3?></td>
+								<td class="text-right"><?= $value->total3?></td>
+							</tr>
+						<?php } ?>
 					</tbody>
 				</table>
 			</div>

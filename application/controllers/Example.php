@@ -376,12 +376,11 @@ class Example extends CI_Controller
 	{
 		$nm_obat = $this->input->post('nm_obat');
 		if (isset($nm_obat)) {
-			// code...
-			$this->db->where('nm_obat =', $nm_obat);
-			$detail_trans = $this->db->get('table_detail_transaksi')->result();
+			$this->db->where('no_obat =', $nm_obat);
+			$kartu_stok = $this->db->get('table_stock_card')->result();
 			$obat = $this->db->get('table_med')->result();
 			$data = [
-				'list' => $detail_trans,
+				'list' => $kartu_stok,
 				'obat' => $obat,
 				'nm_obat' => $nm_obat
 			];
@@ -391,12 +390,11 @@ class Example extends CI_Controller
 			$this->template->write_view('content', 'laporan/kartu_stok', $data, true);
 			$this->template->render();
 		} else {
-			// code...
-			$this->db->where('nm_obat =', '');
-			$detail_trans = $this->db->get('table_detail_transaksi')->result();
+			$this->db->where('no_obat =', $nm_obat);
+			$kartu_stok = $this->db->get('table_stock_card')->result();
 			$obat = $this->db->get('table_med')->result();
 			$data = [
-				'list' => $detail_trans,
+				'list' => $kartu_stok,
 				'obat' => $obat,
 				'nm_obat' => '-'
 			];
@@ -614,6 +612,8 @@ class Example extends CI_Controller
 		$subtotal = $this->input->post('subtotal');
 
 		foreach ($nama_obat as $key => $val) {
+
+			// edit di no coa \\ jurnal penjualan
 			$kas = [
 				'id_invoice' => $koderef,
 				'tgl_input' => date('Y-m-d'),
@@ -631,6 +631,24 @@ class Example extends CI_Controller
 				'nominal' => $subtotal[$key],
 			];
 			$this->db->insert("jurnal", $penjualan);
+
+			$hpp = [
+				'id_invoice' => $koderef,
+				'tgl_input' => date('Y-m-d'),
+				'no_coa' => 511,
+				'posisi_dr_cr' => "d",
+				'nominal' => $harga_beli[$key],
+			];
+			$this->db->insert("jurnal", $hpp);
+
+			$pers_obat = [
+				'id_invoice' => $koderef,
+				'tgl_input' => date('Y-m-d'),
+				'no_coa' => 112,
+				'posisi_dr_cr' => "k",
+				'nominal' => $harga_beli[$key],
+			];
+			$this->db->insert("jurnal", $pers_obat);
 
 			$tb_detail_trans = [
 				'nm_obat' => $val,
