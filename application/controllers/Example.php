@@ -436,16 +436,18 @@ class Example extends CI_Controller
 			$list = $this->apotek_data->getBB($periode, $no_coa)->result();
 			$akun = $this->db->get('akun')->result();
 			$saldo = $this->apotek_data->getBB($periode, $no_coa)->row()->saldo_awal ?? 0;
-			$kd_akun = $this->apotek_data->getBB($periode, $no_coa)->row()->no_coa;
-			$nm_akun = $this->apotek_data->getBB($periode, $no_coa)->row()->nm_akun;
-			// print_r($list);exit;
+			// $kd_akun = $this->apotek_data->getBB($periode, $no_coa)->row()->no_coa;
+			// $nm_akun = $this->apotek_data->getBB($periode, $no_coa)->row()->nm_akun;
+			$this->db->where('kd_akun =', $no_coa);
+			$nm_akun = $this->db->get('akun')->row()->nm_akun;
+			// print_r($kd_akun);exit;
 			$data = [
 				'list' => $list,
 				'akun' => $akun,
 				'saldo' => $saldo,
 				'saldo_awal' => $saldo_awal,
 				'nm_akun' => $nm_akun,
-				'kd_akun' => $kd_akun,
+				'kd_akun' => $no_coa,
 			];
 			// print_r($data);exit;
 			$this->template->write('title', 'Buku Besar', TRUE);
@@ -799,7 +801,7 @@ class Example extends CI_Controller
 			$pembelian = [
 				'id_invoice' => $kode,
 				'tgl_input' => date('Y-m-d'),
-				'no_coa' => 500,
+				'no_coa' => 112,
 				'posisi_dr_cr' => "d",
 				'nominal' => $subtotal[$key],
 			];
