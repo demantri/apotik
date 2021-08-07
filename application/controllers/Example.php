@@ -721,22 +721,24 @@ class Example extends CI_Controller
 			$val1 = $this->db->get('table_detail_transaksi');
 
 			if($val1->num_rows() > 0){
-				foreach ($val1->result_array() as $data1){
-				$no_obat1 = $data1['nm_obat'];
-				$this->db->where('nama_obat', $no_obat1);
-				$harga = $this->db->get('table_med')->row()->harga_beli;
-				$d1 = array('no_trans' => $koderef,
-				'no_obat' => $no_obat1,
-				'unit1' => '-',
-				'harga1' => '-',
-				'total1' => '-',
-				'unit2' => '-',
-				'harga2' => '-',
-				'total2' => '-',
-				'unit3' => $data1['jumlah_akhir'],
-				'harga3' => $harga,
-				'total3' => $data1['jumlah_akhir'] * $harga);
-				$this->db->insert('table_stock_card', $d1);
+				foreach ($val1->result_array() as $data1) {
+					$no_obat1 = $data1['nm_obat'];
+					$this->db->where('nama_obat', $no_obat1);
+					$harga = $this->db->get('table_med')->row()->harga_beli;
+					$d1 = array(
+						'no_trans' => $koderef,
+						'no_obat' => $no_obat1,
+						'unit1' => '-',
+						'harga1' => '-',
+						'total1' => '-',
+						'unit2' => '-',
+						'harga2' => '-',
+						'total2' => '-',
+						'unit3' => $data1['jumlah_akhir'],
+						'harga3' => $harga,
+						'total3' => $data1['jumlah_akhir'] * $harga
+					);
+					$this->db->insert('table_stock_card', $d1);
 				}
 				//
 				$this->db->where('no_trans', $koderef);
@@ -744,21 +746,26 @@ class Example extends CI_Controller
 				$this->db->order_by('no ASC');
 				$cek_no = $this->db->get('table_stock_card')->row_array()['no'];
 				//
+
 				$this->db->where('no', $cek_no);
 				$this->db->set('unit2', $data['banyak']);
-				$this->db->set('harga2', $data['harga_jual']);
-				$this->db->set('total2', $data['subtotal']);
+				// ubah jadi harga beli yg sblmnya harga jual
+				$this->db->set('harga2', $harga);
+				// $this->db->set('total2', $data['subtotal']);
+				$this->db->set('total2', $data['banyak'] * $harga);
 				$this->db->update('table_stock_card');
+				// print_r($data1);exit;
 					
-			}else{
-				$d1 = array(
+			} else {
+				$d1 = array (
 					'no_trans' => $koderef,
 					'no_obat' 	=> $data['nama_obat'],
 					'unit1' 	=> '-',
 					'harga1' 	=> '-',
 					'total1'	=> '-',
 					'unit2' 	=> $data['banyak'],
-					'harga2' 	=> $data['harga_jual'],
+					// 'harga2' 	=> $data['harga_jual'], // ubah jadi harga beli yg sblmnya harga jual
+					'harga2' 	=> $data1['harga_beli'], // ubah jadi harga beli yg sblmnya harga jual
 					'total2' 	=> $data['subtotal'],
 					'unit3' 	=> $data['banyak'],
 					'harga3' 	=> $data['harga_beli'],
