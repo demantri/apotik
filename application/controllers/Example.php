@@ -439,12 +439,20 @@ class Example extends CI_Controller
 			// $saldo_awal = $this->db->query($query)->row();
 
 			$tgl = date('Y-m-d', strtotime("-1 day", strtotime($periode)));
-			$query2 = "SELECT SUM(nominal) as saldo
+			$query2 = "SELECT SUM(nominal) as debit, 
+			(
+				SELECT SUM(nominal) 
+				FROM jurnal
+				WHERE tgl_input < '$tgl'
+				AND no_coa = '$no_coa'
+				AND posisi_dr_cr = 'k'
+			) as kredit
 			FROM jurnal
 			WHERE tgl_input < '$tgl'
 			AND no_coa = '$no_coa'
+			AND posisi_dr_cr = 'd'
 			";
-			$saldo_awal = $this->db->query($query2)->row()->saldo;
+			$saldo_awal = $this->db->query($query2)->row();
 			// print_r($saldo_awal);exit;
 
 			$list = $this->apotek_data->getBB($periode, $no_coa)->result();
@@ -498,12 +506,20 @@ class Example extends CI_Controller
 			";
 
 			$tgl = date('Y-m-d', strtotime("-1 day", strtotime($periode)));
-			$query2 = "SELECT SUM(nominal) as saldo
+			$query2 = "SELECT SUM(nominal) as debit, 
+			(
+				SELECT SUM(nominal) 
+				FROM jurnal
+				WHERE tgl_input < '$tgl'
+				AND no_coa = '$no_coa'
+				AND posisi_dr_cr = 'k'
+			) as kredit
 			FROM jurnal
 			WHERE tgl_input < '$tgl'
 			AND no_coa = '$no_coa'
+			AND posisi_dr_cr = 'd'
 			";
-			$saldo_awal = $this->db->query($query2)->row()->saldo;
+			$saldo_awal = $this->db->query($query2)->row();
 
 			$data = [
 				'list' => $list,

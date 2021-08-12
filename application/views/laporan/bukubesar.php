@@ -69,6 +69,9 @@
 						</tr>
 					</thead>
 					<tbody>
+					<?php 
+						$saldo_awal = $saldo_awal->debit - $saldo_awal->kredit;
+					?>
 					<tr>
 						<td colspan="4"><b>Saldo Awal</b></td>
 						<td class="text-right">Rp. <?= number_format($saldo_awal)?></td>
