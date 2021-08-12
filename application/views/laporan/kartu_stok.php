@@ -32,7 +32,8 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>Nama Obat : <?= $nm_obat?></h2>
+				<!-- <h2>Nama Obat : <?= $nm_obat?></h2>&nbsp;
+				<h2>Periode : <?= $periode?></h2> -->
 				<ul class="nav navbar-right panel_toolbox">
 					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 					</li>
@@ -43,7 +44,11 @@
 				<div class="clearfix">
 				</div>
 			</div>
-			
+			<center>
+				<h3>Kartu Stok</h3>
+				<h5><?= $nm_obat?></h5>
+				<h5><?= $periode?></h5>
+			</center>
 			<div class="x_content">
 				<table class="table table-striped table-bordered">
 					<thead>

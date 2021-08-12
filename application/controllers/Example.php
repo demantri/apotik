@@ -388,10 +388,12 @@ class Example extends CI_Controller
 			// $kartu_stok = $this->db->get('table_stock_card')->result();
 			$kartu_stok = $this->apotek_data->kartu_stok($nm_obat, $periode)->result();
 			$obat = $this->db->get('table_med')->result();
+			$periode_fix = date('F Y', strtotime($periode));
 			$data = [
 				'list' => $kartu_stok,
 				'obat' => $obat,
-				'nm_obat' => $nm_obat
+				'nm_obat' => $nm_obat, 
+				'periode' => $periode_fix
 			];
 
 			$this->template->write('title', 'Kartu Gudang', TRUE);
@@ -405,7 +407,8 @@ class Example extends CI_Controller
 			$data = [
 				'list' => $kartu_stok,
 				'obat' => $obat,
-				'nm_obat' => '-'
+				'nm_obat' => '-', 
+				'periode' => '-'
 			];
 
 			$this->template->write('title', 'Kartu Gudang', TRUE);
