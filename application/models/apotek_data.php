@@ -631,6 +631,7 @@ class Apotek_data extends CI_Model
         FROM jurnal a
         INNER JOIN akun b ON a.no_coa = b.kd_akun
         WHERE tgl_input BETWEEN '$start' AND '$end'
+		AND LEFT(id_invoice, 3) != 'sld'
         ORDER BY id ASC";
         return $this->db->query($sql);
     }
