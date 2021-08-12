@@ -5,14 +5,14 @@
 			<div class="x_content">
 				<form class="form-inline" action="<?= base_url("Example/jurnal")?>" method="POST">
 			  		<label class="col-sm-2 control-label">Periode</label>
-			  		<div class="col-sm-2">
+			  		<!-- <div class="col-sm-2">
                       	<div class="input-group">
-                           	<input type="date" name="start" class="form-control" required="">
+                           	<input type="month" name="start" class="form-control" required="">
                       	</div>
-                    </div>
+                    </div> -->
                     <div class="col-sm-5">
                       	<div class="input-group">
-                           	<input type="date" name="end" class="form-control" required="">
+                           	<input type="month" name="month" class="form-control" required="">
                             <span class="input-group-btn">
                               	<button type="submit" class="btn btn-primary">Filter</button>
                           	</span>

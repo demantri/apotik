@@ -71,6 +71,11 @@
 					<tbody>
 					<?php 
 						$saldo_awal = $saldo_awal->debit - $saldo_awal->kredit;
+						// if ($saldo_awal->debit > $saldo_awal->kredit) {
+						// 	$saldo_awal = $saldo_awal->debit - $saldo_awal->kredit;
+						// } else {
+						// 	$saldo_awal = $saldo_awal->kredit - $saldo_awal->debit;
+						// }
 					?>
 					<tr>
 						<td colspan="4"><b>Saldo Awal</b></td>

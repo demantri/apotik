@@ -625,16 +625,38 @@ class Apotek_data extends CI_Model
     }
 
 
-    public function jurnal($start, $end)
+    // public function jurnal($start, $end)
+    // {
+    //     $sql = "SELECT a.*, nm_akun
+    //     FROM jurnal a
+    //     INNER JOIN akun b ON a.no_coa = b.kd_akun
+    //     WHERE tgl_input BETWEEN '$start' AND '$end'
+	// 	AND LEFT(id_invoice, 3) != 'sld'
+    //     ORDER BY id ASC";
+    //     return $this->db->query($sql);
+    // }
+
+	public function jurnal($periode)
     {
         $sql = "SELECT a.*, nm_akun
         FROM jurnal a
         INNER JOIN akun b ON a.no_coa = b.kd_akun
-        WHERE tgl_input BETWEEN '$start' AND '$end'
+        WHERE LEFT(tgl_input, 7) = '$periode'
 		AND LEFT(id_invoice, 3) != 'sld'
         ORDER BY id ASC";
         return $this->db->query($sql);
     }
+
+	public function kartu_stok($nama_obat, $tgl)
+	{
+		$sql = "SELECT * 
+		FROM table_stock_card
+		WHERE no_obat = '$nama_obat' 
+		AND LEFT(tgl_trans, 7) = '$tgl'
+		ORDER BY `no` ASC
+		";
+		return $this->db->query($sql);
+	}
 
     public function getBB($tgl, $no_coa)
     {

@@ -3,8 +3,8 @@
 		<div class="x_panel">
 			<div class="x_content">
 				<form class="form-inline" action="<?= base_url("Example/kartu_stok")?>" method="POST">
-			  		<label class="col-sm-2 control-label">Nama Obat</label>
-			  		<div class="col-sm-9">
+			  		<label class="col-sm-1 control-label">Nama Obat</label>
+			  		<div class="col-sm-2">
                       	<div class="input-group">
                            	<select class="form-control coba" name="nm_obat" required="">
                            		<option value="">Pilih Obat</option>
@@ -12,10 +12,16 @@
                            		<option value="<?= $data->nama_obat?>"><?= $data->nama_obat?></option>
                            		<?php } ?>
                            	</select>
-                            <span class="input-group-btn">
-                              	<button type="submit" class="btn btn-primary">Cari</button>
-                          	</span>
                       </div>
+                    </div>
+					<label class="col-sm-1 control-label">Periode</label>
+                    <div class="col-sm-3">
+                      	<div class="input-group">
+                           	<input type="month" name="month" class="form-control" required="">
+                            <span class="input-group-btn">
+                              	<button type="submit" class="btn btn-primary">Filter</button>
+                          	</span>
+                      	</div>
                     </div>
 				</form>
 			</div>
@@ -37,7 +43,7 @@
 				<div class="clearfix">
 				</div>
 			</div>
-
+			
 			<div class="x_content">
 				<table class="table table-striped table-bordered">
 					<thead>

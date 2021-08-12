@@ -347,23 +347,26 @@ class Example extends CI_Controller
 	public function jurnal()
 	{
 		// $data['akun'] = $this->db->get('akun')->result();
-		$start = $this->input->post('start');
-		$end = $this->input->post('end');
+		// $start = $this->input->post('start');
+		// $end = $this->input->post('end');
+		$periode = $this->input->post('month');
 		// print_r($start);exit;
-		if (isset($start, $end)) {
+		if (isset($periode)) {
 			// code...
-			$jurnal = $this->apotek_data->jurnal($start, $end)->result();
-			$periode = $start.' s/d '.$end;
+			// $jurnal = $this->apotek_data->jurnal($start, $end)->result();
+			$jurnal = $this->apotek_data->jurnal($periode)->result();
+			// $periode = $start.' s/d '.$end;
+			$periode_fix = date('F Y', strtotime($periode));
 			$data = [
 				'jurnal' => $jurnal, 
-				'periode' => $periode
+				'periode' => $periode_fix
 			];
 			$this->template->write('title', 'Jurnal Umum', TRUE);
 			$this->template->write('header', 'Jurnal Umum');
 			$this->template->write_view('content', 'laporan/jurnal', $data, true);
 			$this->template->render();
 		} else {
-			$jurnal = $this->apotek_data->jurnal($start, $end)->result();
+			$jurnal = $this->apotek_data->jurnal($periode)->result();
 			$data = [
 				'jurnal' => $jurnal, 
 				'periode' => '-'
@@ -378,9 +381,12 @@ class Example extends CI_Controller
 	public function kartu_stok()
 	{
 		$nm_obat = $this->input->post('nm_obat');
-		if (isset($nm_obat)) {
-			$this->db->where('no_obat =', $nm_obat);
-			$kartu_stok = $this->db->get('table_stock_card')->result();
+		$periode = $this->input->post('month');
+		if (isset($nm_obat, $periode)) {
+			// $this->db->where('no_obat =', $nm_obat);
+			// $this->db->where('tgl_');
+			// $kartu_stok = $this->db->get('table_stock_card')->result();
+			$kartu_stok = $this->apotek_data->kartu_stok($nm_obat, $periode)->result();
 			$obat = $this->db->get('table_med')->result();
 			$data = [
 				'list' => $kartu_stok,
