@@ -67,14 +67,14 @@
 								<td><?= $value->tgl_trans?></td>
 								<td><?= $ket?></td>
 								<td><?= $value->unit1?></td>
-								<td><?= $value->harga1?></td>
-								<td><?= $value->total1?></td>
+								<td class="text-right">Rp. <?= $value->harga1 != '-' ? number_format($value->harga1) : '-'; ?></td>
+								<td class="text-right">Rp. <?= $value->total1 != '-' ? number_format($value->total1) : '-'; ?></td>
 								<td><?= $value->unit2?></td>
-								<td><?= $value->harga2?></td>
-								<td><?= $value->total2?></td>
+								<td class="text-right">Rp. <?= $value->harga2 != '-' ? number_format($value->harga2) : '-';?></td>
+								<td class="text-right">Rp. <?= $value->total2 != '-' ? number_format($value->total2) : '-';?></td>
 								<td><?= $value->unit3?></td>
-								<td class="text-right"><?= $value->harga3?></td>
-								<td class="text-right"><?= $value->total3?></td>
+								<td class="text-right">Rp. <?= number_format($value->harga3)?></td>
+								<td class="text-right">Rp. <?= number_format($value->total3)?></td>
 							</tr>
 						<?php } ?>
 					</tbody>
