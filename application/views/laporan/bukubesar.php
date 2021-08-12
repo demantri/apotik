@@ -43,6 +43,13 @@
 				</div>
 			</div>
 
+			<div>
+				<center>
+					<h3>Buku Besar</h3>
+					<h5>Periode <?= $periode ?></h5>
+				</center>
+			</div>
+
 			<div class="x_content">
 				<table class="table table-bordered">
 					<tr>
@@ -62,10 +69,6 @@
 						</tr>
 					</thead>
 					<tbody>
-					<?php 
-					 	$saldo_awal = $saldo_awal->debit - $saldo_awal->kredit;
-						// $saldo_awal = $saldo + $saldo_a;
-					?>
 					<tr>
 						<td colspan="4"><b>Saldo Awal</b></td>
 						<td class="text-right">Rp. <?= number_format($saldo_awal)?></td>

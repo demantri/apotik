@@ -353,8 +353,10 @@ class Example extends CI_Controller
 		if (isset($start, $end)) {
 			// code...
 			$jurnal = $this->apotek_data->jurnal($start, $end)->result();
+			$periode = $start.' s/d '.$end;
 			$data = [
-				'jurnal' => $jurnal
+				'jurnal' => $jurnal, 
+				'periode' => $periode
 			];
 			$this->template->write('title', 'Jurnal Umum', TRUE);
 			$this->template->write('header', 'Jurnal Umum');
@@ -363,7 +365,8 @@ class Example extends CI_Controller
 		} else {
 			$jurnal = $this->apotek_data->jurnal($start, $end)->result();
 			$data = [
-				'jurnal' => $jurnal
+				'jurnal' => $jurnal, 
+				'periode' => '-'
 			];
 			$this->template->write('title', 'Jurnal Umum', TRUE);
 			$this->template->write('header', 'Jurnal Umum');
@@ -414,7 +417,8 @@ class Example extends CI_Controller
 		if (isset($periode, $no_coa)) {
 			$tahun1 = date('Y', strtotime($periode));
 			$bulan1 = date('m', strtotime($periode));
-			$cek = date('m-d-Y', mktime(0, 0, 0, 1, $bulan1 - 1, $tahun1));
+			$cek = date('m-d-Y', mktime(0, 0, 0, 1, $bulan1 -1, $tahun1));
+			// print_r($cek);exit;
 			$bulan = substr($cek, 3, 2);
 			$tahun = substr($cek, 6, 5);
 			$query = "SELECT sum(nominal) as debit , 
@@ -432,7 +436,17 @@ class Example extends CI_Controller
 			AND YEAR(tgl_input) <= '$tahun' 
 			and posisi_dr_cr = 'd'
 			";
-			$saldo_awal = $this->db->query($query)->row();
+			// $saldo_awal = $this->db->query($query)->row();
+
+			$tgl = date('Y-m-d', strtotime("-1 day", strtotime($periode)));
+			$query2 = "SELECT SUM(nominal) as saldo
+			FROM jurnal
+			WHERE tgl_input < '$tgl'
+			AND no_coa = '$no_coa'
+			";
+			$saldo_awal = $this->db->query($query2)->row()->saldo;
+			// print_r($saldo_awal);exit;
+
 			$list = $this->apotek_data->getBB($periode, $no_coa)->result();
 			$akun = $this->db->get('akun')->result();
 			$saldo = $this->apotek_data->getBB($periode, $no_coa)->row()->saldo_awal ?? 0;
@@ -441,6 +455,7 @@ class Example extends CI_Controller
 			$this->db->where('kd_akun =', $no_coa);
 			$nm_akun = $this->db->get('akun')->row()->nm_akun;
 			// print_r($kd_akun);exit;
+			$periode_fix = date('F Y', strtotime($periode));
 			$data = [
 				'list' => $list,
 				'akun' => $akun,
@@ -448,6 +463,7 @@ class Example extends CI_Controller
 				'saldo_awal' => $saldo_awal,
 				'nm_akun' => $nm_akun,
 				'kd_akun' => $no_coa,
+				'periode' => $periode_fix
 			];
 			// print_r($data);exit;
 			$this->template->write('title', 'Buku Besar', TRUE);
@@ -458,6 +474,8 @@ class Example extends CI_Controller
 			$list = $this->apotek_data->getBB($periode, $no_coa)->result();
 			$akun = $this->db->get('akun')->result();
 			$saldo = 0;
+
+			// gak jadi dipake
 			$tahun1 = date('Y', strtotime($periode));
 			$bulan1 = date('m', strtotime($periode));
 			$cek = date('m-d-Y', mktime(0, 0, 0, 1, $bulan1 - 1, $tahun1));
@@ -478,13 +496,22 @@ class Example extends CI_Controller
 			AND YEAR(tgl_input) <= '$tahun' 
 			and posisi_dr_cr = 'd'
 			";
-			$saldo_awal = $this->db->query($query)->row();
+
+			$tgl = date('Y-m-d', strtotime("-1 day", strtotime($periode)));
+			$query2 = "SELECT SUM(nominal) as saldo
+			FROM jurnal
+			WHERE tgl_input < '$tgl'
+			AND no_coa = '$no_coa'
+			";
+			$saldo_awal = $this->db->query($query2)->row()->saldo;
+
 			$data = [
 				'list' => $list,
 				'akun' => $akun,
 				'saldo' => $saldo,
 				'saldo_awal' => $saldo_awal,
 				'nm_akun' => '-',
+				'periode' => '-',
 				'kd_akun' => '-'
 			];
 			// print_r($list);exit;

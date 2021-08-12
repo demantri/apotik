@@ -38,7 +38,10 @@
 				<div class="clearfix">
 				</div>
 			</div>
-
+			<center>
+				<h3>Jurnal Umum</h3>
+				<h5><?= $periode ?></h5>
+			</center>
 			<div class="x_content">
 				<table class="table table-striped table-bordered">
 					<thead>
